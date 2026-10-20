@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131d">
+  <meta name="description" content="Когда мы свободны? — приложение для поиска общих выходных с друзьями.">
+  <title>Когда мы свободны? — Скачать для Android</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #f5f6ff;
+      background: radial-gradient(circle at 50% 15%, #25345c, #10131d 70%);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      padding: 38px 28px;
+      text-align: center;
+      background: #1b2030;
+      border: 1px solid #333b55;
+      border-radius: 24px;
+      box-shadow: 0 20px 65px #0006;
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 20px;
+      font-size: 38px;
+      background: #303b63;
+      border-radius: 20px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(26px, 6vw, 34px);
+      line-height: 1.15;
+    }
+
+    .description {
+      color: #b8c1d9;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .download {
+      display: block;
+      padding: 16px 20px;
+      border-radius: 14px;
+      background: #526bfa;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .download.disabled {
+      background: #38415b;
+      color: #b8c1d9;
+      cursor: default;
+    }
+
+    .status {
+      margin: 14px 0 0;
+      font-size: 13px;
+      color: #aab4d0;
+    }
+
+    .features {
+      margin: 28px 0 0;
+      padding-top: 22px;
+      border-top: 1px solid #333b55;
+      color: #c5cde2;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: #8995b1;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo" aria-hidden="true">📅</div>
+
+    <h1>Когда мы свободны?</h1>
+
+    <p class="description">
+      Узнай, когда вы с друзьями свободны одновременно.
+      Сравнивай рабочие графики, планируй встречи
+      и обменивайся расписаниями через QR-код.
+    </p>
+
+    <span class="download disabled" aria-disabled="true">
+      📲 Скачать для Android
+    </span>
+
+    <p class="status">Скоро здесь появится установочный файл APK</p>
+
+    <div class="features">
+      ✓ Без регистрации<br>
+      ✓ Графики смен и общие выходные<br>
+      ✓ Обмен расписаниями через QR<br>
+      ✓ Работает без интернета
+    </div>
+
+    <footer>© 2026 Когда мы свободны?</footer>
+  </main>
+</body>
+</html>
