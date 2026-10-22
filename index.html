@@ -104,11 +104,11 @@
       и обменивайся расписаниями через QR-код.
     </p>
 
-    <span class="download disabled" aria-disabled="true">
+    <a class="download" href="https://github.com/wibraimow/kogda-my-svobodny-site/releases/download/v1.0.0-build2-test1/kogda-my-svobodny-v1.0.0-build2.apk">
       📲 Скачать для Android
-    </span>
+    </a>
 
-    <p class="status">Скоро здесь появится установочный файл APK</p>
+    <p class="status" id="download-count" aria-live="polite">Статистика скачиваний пока недоступна.</p>
 
     <div class="features">
       ✓ Без регистрации<br>
@@ -119,5 +119,26 @@
 
     <footer>© 2026 Когда мы свободны?</footer>
   </main>
+  <script>
+    (async () => {
+      const counter = document.getElementById('download-count');
+      try {
+        const response = await fetch(
+          'https://api.github.com/repos/wibraimow/kogda-my-svobodny-site/releases/tags/v1.0.0-build2-test1',
+          { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' }
+        );
+        if (!response.ok) return;
+        const release = await response.json();
+        const asset = release.assets?.find(
+          (item) => item.name === 'kogda-my-svobodny-v1.0.0-build2.apk'
+        );
+        if (Number.isSafeInteger(asset?.download_count) && asset.download_count >= 0) {
+          counter.textContent = `Скачиваний: ${new Intl.NumberFormat('ru-RU').format(asset.download_count)}`;
+        }
+      } catch (_) {
+        // Keep the neutral text when GitHub is unavailable.
+      }
+    })();
+  </script>
 </body>
 </html>
