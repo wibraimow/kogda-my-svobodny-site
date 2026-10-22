@@ -104,7 +104,7 @@
       и обменивайся расписаниями через QR-код.
     </p>
 
-    <a class="download" href="https://github.com/wibraimow/kogda-my-svobodny-site/releases/download/v1.0.0-build2-test1/kogda-my-svobodny-v1.0.0-build2.apk">
+    <a class="download" href="https://github.com/wibraimow/kogda-my-svobodny-site/releases/download/v1.0.0-build3-test2/kogda-my-svobodny-v1.0.0-build3.apk">
       📲 Скачать для Android
     </a>
 
@@ -122,19 +122,36 @@
   <script>
     (async () => {
       const counter = document.getElementById('download-count');
+      const releases = [
+        ['v1.0.0-build2-test1', 'kogda-my-svobodny-v1.0.0-build2.apk'],
+        ['v1.0.0-build3-test2', 'kogda-my-svobodny-v1.0.0-build3.apk'],
+      ];
       try {
-        const response = await fetch(
-          'https://api.github.com/repos/wibraimow/kogda-my-svobodny-site/releases/tags/v1.0.0-build2-test1',
-          { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' }
+        const assets = await Promise.all(releases.map(async ([tag, name]) => {
+          const response = await fetch(
+            `https://api.github.com/repos/wibraimow/kogda-my-svobodny-site/releases/tags/${tag}`,
+            { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' }
+          );
+          if (!response.ok) throw new Error('Release unavailable');
+          const release = await response.json();
+          const matches = release.assets?.filter((asset) => asset.name === name);
+          if (release.tag_name !== tag || matches?.length !== 1) {
+            throw new Error('APK asset unavailable');
+          }
+          const asset = matches[0];
+          if (!Number.isSafeInteger(asset.id) ||
+              !Number.isSafeInteger(asset.download_count) ||
+              asset.download_count < 0) {
+            throw new Error('Invalid download count');
+          }
+          return asset;
+        }));
+        const uniqueAssets = new Map(assets.map((asset) => [asset.id, asset]));
+        const total = [...uniqueAssets.values()].reduce(
+          (sum, asset) => sum + asset.download_count, 0
         );
-        if (!response.ok) return;
-        const release = await response.json();
-        const asset = release.assets?.find(
-          (item) => item.name === 'kogda-my-svobodny-v1.0.0-build2.apk'
-        );
-        if (Number.isSafeInteger(asset?.download_count) && asset.download_count >= 0) {
-          counter.textContent = `Скачиваний: ${new Intl.NumberFormat('ru-RU').format(asset.download_count)}`;
-        }
+        if (!Number.isSafeInteger(total)) throw new Error('Invalid total');
+        counter.textContent = `Скачиваний: ${new Intl.NumberFormat('ru-RU').format(total)}`;
       } catch (_) {
         // Keep the neutral text when GitHub is unavailable.
       }
